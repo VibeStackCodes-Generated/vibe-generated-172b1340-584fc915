@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useCallback } from 'react'
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { translations } from './translations'
+import { getStoredLanguage, saveLanguageToStorage, detectLanguageFromPath } from './languageUtils'
 
 export type Language = 'en' | 'fr'
 
@@ -12,15 +14,6 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-/**
- * Extract language from current pathname
- * Expects URLs like /en/... or /fr/...
- */
-function detectLanguageFromPath(pathname: string): Language {
-  const match = pathname.match(/^\/(en|fr)(?:\/|$)/)
-  return match ? (match[1] as Language) : 'en'
-}
-
 interface LanguageProviderProps {
   children: React.ReactNode
 }
@@ -28,14 +21,30 @@ interface LanguageProviderProps {
 /**
  * Language provider component
  * Manages language state and provides language switching functionality
+ * Persists language selection in localStorage
  */
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const location = useLocation()
   const navigate = useNavigate()
-  // Initialize language from URL on first render
+
+  // Initialize language from URL, localStorage, or default
   const [language, setLanguageState] = useState<Language>(() => {
-    return detectLanguageFromPath(location.pathname)
+    const pathLanguage = detectLanguageFromPath(location.pathname)
+    const storedLanguage = getStoredLanguage()
+
+    // Prefer URL language if it matches a supported language
+    if (pathLanguage === 'en' || pathLanguage === 'fr') {
+      return pathLanguage
+    }
+
+    // Fall back to stored language
+    return storedLanguage
   })
+
+  // Sync localStorage when language changes
+  useEffect(() => {
+    saveLanguageToStorage(language)
+  }, [language])
 
   /**
    * Handle language change and navigate to localized path

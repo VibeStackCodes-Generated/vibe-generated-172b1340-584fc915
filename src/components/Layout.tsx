@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 interface LayoutProps {
   children: ReactNode
@@ -10,7 +11,7 @@ interface LayoutProps {
  * Main layout component with header, navigation, and footer
  */
 export function Layout({ children }: LayoutProps) {
-  const { language, setLanguage, t } = useLanguage()
+  const { language, t } = useLanguage()
   const location = useLocation()
 
   /**
@@ -79,28 +80,7 @@ export function Layout({ children }: LayoutProps) {
             </nav>
 
             {/* Language Switcher */}
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setLanguage('en')}
-                className={`px-3 py-2 rounded-lg font-semibold transition-colors ${
-                  language === 'en'
-                    ? 'bg-amber-900 text-amber-50'
-                    : 'bg-amber-100 text-amber-900 hover:bg-amber-200'
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLanguage('fr')}
-                className={`px-3 py-2 rounded-lg font-semibold transition-colors ${
-                  language === 'fr'
-                    ? 'bg-amber-900 text-amber-50'
-                    : 'bg-amber-100 text-amber-900 hover:bg-amber-200'
-                }`}
-              >
-                FR
-              </button>
-            </div>
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile Navigation */}
