@@ -19,6 +19,10 @@ export const translations: Record<Language, Record<string, string>> = {
     loading: 'Loading...',
     start_building: 'Start building your app',
     heritage: 'Maison Héritage',
+    search: 'Search',
+    search_wines: 'Search wines',
+    open_menu: 'Open navigation menu',
+    close_menu: 'Close navigation menu',
   },
   fr: {
     home: 'Accueil',
@@ -35,5 +39,9 @@ export const translations: Record<Language, Record<string, string>> = {
     loading: 'Chargement...',
     start_building: 'Commencez à construire votre application',
     heritage: 'Maison Héritage',
+    search: 'Rechercher',
+    search_wines: 'Rechercher des vins',
+    open_menu: 'Ouvrir le menu de navigation',
+    close_menu: 'Fermer le menu de navigation',
   },
 }

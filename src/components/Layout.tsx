@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { LanguageSwitcher } from './LanguageSwitcher'
+import { SiteHeader } from './SiteHeader'
 
 interface LayoutProps {
   children: ReactNode
@@ -11,123 +11,14 @@ interface LayoutProps {
  * Main layout component with header, navigation, and footer
  */
 export function Layout({ children }: LayoutProps) {
-  const { language, t } = useLanguage()
+  const { language } = useLanguage()
   const location = useLocation()
-
-  /**
-   * Check if a route is active
-   */
-  const isActive = (path: string): boolean => {
-    return location.pathname === `/${language}${path}` || location.pathname === `/${language}`
-  }
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b-2 border-amber-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo/Brand */}
-            <Link
-              to={`/${language}`}
-              className="text-2xl font-serif font-bold text-amber-900 hover:text-amber-700 transition-colors"
-            >
-              {t('heritage')}
-            </Link>
+      {/* Header with Navigation */}
+      <SiteHeader />
 
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link
-                to={`/${language}`}
-                className={`font-semibold transition-colors ${
-                  isActive('') ? 'text-amber-900' : 'text-amber-700 hover:text-amber-900'
-                }`}
-              >
-                {t('home')}
-              </Link>
-              <Link
-                to={`/${language}/catalog`}
-                className={`font-semibold transition-colors ${
-                  isActive('/catalog') ? 'text-amber-900' : 'text-amber-700 hover:text-amber-900'
-                }`}
-              >
-                {t('catalog')}
-              </Link>
-              <Link
-                to={`/${language}/booking`}
-                className={`font-semibold transition-colors ${
-                  isActive('/booking') ? 'text-amber-900' : 'text-amber-700 hover:text-amber-900'
-                }`}
-              >
-                {t('booking')}
-              </Link>
-              <Link
-                to={`/${language}/trade`}
-                className={`font-semibold transition-colors ${
-                  isActive('/trade') ? 'text-amber-900' : 'text-amber-700 hover:text-amber-900'
-                }`}
-              >
-                {t('trade')}
-              </Link>
-              <Link
-                to={`/${language}/contact`}
-                className={`font-semibold transition-colors ${
-                  isActive('/contact') ? 'text-amber-900' : 'text-amber-700 hover:text-amber-900'
-                }`}
-              >
-                {t('contact')}
-              </Link>
-            </nav>
-
-            {/* Language Switcher */}
-            <LanguageSwitcher />
-          </div>
-
-          {/* Mobile Navigation */}
-          <nav className="md:hidden mt-4 flex flex-wrap gap-2">
-            <Link
-              to={`/${language}`}
-              className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
-                isActive('') ? 'bg-amber-900 text-amber-50' : 'bg-amber-100 text-amber-900'
-              }`}
-            >
-              {t('home')}
-            </Link>
-            <Link
-              to={`/${language}/catalog`}
-              className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
-                isActive('/catalog') ? 'bg-amber-900 text-amber-50' : 'bg-amber-100 text-amber-900'
-              }`}
-            >
-              {t('catalog')}
-            </Link>
-            <Link
-              to={`/${language}/booking`}
-              className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
-                isActive('/booking') ? 'bg-amber-900 text-amber-50' : 'bg-amber-100 text-amber-900'
-              }`}
-            >
-              {t('booking')}
-            </Link>
-            <Link
-              to={`/${language}/trade`}
-              className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
-                isActive('/trade') ? 'bg-amber-900 text-amber-50' : 'bg-amber-100 text-amber-900'
-              }`}
-            >
-              {t('trade')}
-            </Link>
-            <Link
-              to={`/${language}/contact`}
-              className={`px-3 py-1 rounded text-sm font-semibold transition-colors ${
-                isActive('/contact') ? 'bg-amber-900 text-amber-50' : 'bg-amber-100 text-amber-900'
-              }`}
-            >
-              {t('contact')}
-            </Link>
-          </nav>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="flex-grow">{children}</main>
