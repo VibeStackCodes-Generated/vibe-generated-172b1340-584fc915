@@ -11,7 +11,7 @@ interface LayoutProps {
  * Main layout component with header, navigation, and footer
  */
 export function Layout({ children }: LayoutProps) {
-  const { language } = useLanguage()
+  const { t, language } = useLanguage()
   const location = useLocation()
 
   return (
