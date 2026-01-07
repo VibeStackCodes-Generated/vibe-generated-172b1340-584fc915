@@ -1,5 +1,11 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import App from '@/App'
+import { Home } from '@/pages/Home'
+import { Catalog } from '@/pages/Catalog'
+import { WineDetail } from '@/pages/WineDetail'
+import { Contact } from '@/pages/Contact'
+import { Booking } from '@/pages/Booking'
+import { Trade } from '@/pages/Trade'
 
 /**
  * Get basename dynamically from window location or environment
@@ -39,24 +45,57 @@ function getBasename(): string {
 }
 
 /**
- * Application routes
- * Add new routes here for code splitting
+ * Application routes with localized base paths (/en/, /fr/)
+ * Supports nested routing for each language
  */
 export const router = createBrowserRouter(
   [
     {
+      // Root route - redirect to default language
       path: '/',
+      element: <Navigate to="/en" replace />,
+    },
+    {
+      // Localized language routes
+      path: '/:lang',
       element: <App />,
       children: [
         {
+          // Home page - index route
           index: true,
-          element: (
-            <div className="flex min-h-screen items-center justify-center">
-              <p className="text-muted-foreground">Start building your app</p>
-            </div>
-          ),
+          element: <Home />,
+        },
+        {
+          // Wine Catalog
+          path: 'catalog',
+          element: <Catalog />,
+        },
+        {
+          // Wine Detail page with dynamic ID
+          path: 'wine/:id',
+          element: <WineDetail />,
+        },
+        {
+          // Contact page
+          path: 'contact',
+          element: <Contact />,
+        },
+        {
+          // Booking/Tasting page
+          path: 'booking',
+          element: <Booking />,
+        },
+        {
+          // Trade & Wholesale page
+          path: 'trade',
+          element: <Trade />,
         },
       ],
+    },
+    {
+      // Catch-all - redirect to home
+      path: '*',
+      element: <Navigate to="/en" replace />,
     },
   ],
   {
